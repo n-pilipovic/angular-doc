@@ -1,0 +1,16 @@
+<!-- we use property binding [greeting]="greeting | async" to pass inputs to the child
+and (greetingEvent)="handleChildGreeting($event) to bind to the greetingEvent that the child
+emits with EventEmitter
+this is a must read about the differences between attribute and property binding:
+  https://angular.io/guide/template-syntax#html-attribute-vs-dom-property
+
+The async pipe is something that we use to automatically unwrap the value and handles the
+subscribing and unsubscribing when the child component gets destroyed. 
+  read more: https://angular.io/api/common/AsyncPipe 
+-->
+<app-child 
+  [greeting]="greeting"
+  [anotherGreeting]="observable$ | async"
+  (greetingEvent)="handleChildGreeting($event)"
+  ></app-child>
+<button mat-raised-button color="primary" data-dialog-btn (click)="openDialog()">Open dialog</button>
