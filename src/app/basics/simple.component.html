@@ -1,0 +1,49 @@
+<section>
+  <header>
+    <h1>
+      <!-- {{ }} is called interpolation. This allows us to use expressions
+      to calculate strings that will get displayed -->
+      {{name + ' is my name'}}
+    </h1>
+  </header>
+
+  <ul>
+    <!-- we use *ngFor structural directive to loop over an array and repeat the template that is inside
+    the element that we have attached *ngFor to. In this case we repeat the list element
+    for each name that we have in the array -->
+    <li 
+      *ngFor="let name of names; let i = index"
+    >
+      <!-- (click)="displayNameIndex(i)" is how we handle events, in this case we say that we want
+      the displayNameIndex method to handle the click event and we want to pass in the index
+      of the list item that was clicked. We use index to bind a dynamic data-warning attribute
+      so it is easier to locate that button during unit testing.
+    
+      We use a mat-raised-button attribute directive that is exported by MatButtonModule to modify our button
+      element. You can read more about attribute directives from here: https://angular.io/guide/attribute-directives -->
+      <button mat-raised-button color="primary" (click)="displayNameIndex(i)" [attr.data-list-button]="i">
+        <!-- this is how we pipe a value. here we chain two pipes, first we trim the name -->
+        {{name | trim | uppercase}}
+      </button>
+    </li>
+  </ul>
+
+  <!-- *ngIf is how we can conditionally show elements in our UI.
+  We use template ref (#defaultText) to speficy what should be displayed in the else case.
+  Read more from here: https://ultimatecourses.com/blog/angular-ngif-else-then.
+
+  NB! We use data-attributes here to simplify locating the element during testing. We use them
+  as a reference when we are querying for the div element. We could do diferentiate this div by using
+  a class or an id, but then we would be coupling our unit tests to them. If we would change
+  the name of the class or id then we would have to also change our test. -->
+  <div data-warning *ngIf="displayWarning(); else defaultText">
+    You have been warned!
+  </div>
+  <ng-template #defaultText>
+    <span data-no-warning>
+      Nothing to see here!
+    </span>
+  </ng-template>
+</section>
+
+<!-- To read more about structural directives *ngIf and *ngFor: https://angular.io/guide/structural-directives  -->

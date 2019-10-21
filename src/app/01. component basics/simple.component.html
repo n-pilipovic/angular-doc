@@ -1,0 +1,38 @@
+<section>
+  <header>
+    <h1>
+      <!-- {{ }} is called interpolation. This allows us to use expressions
+      to calculate strings that will get displayed -->
+      {{name + ' is my name'}}
+    </h1>
+  </header>
+
+  <!-- we use *ngFor to loop over an array. Here we also assign index to i,
+  so that we can have access to it, which for example is useful when you have an edit button
+  for each element in the array. Then you can determine by the index which element
+  the user wants to edit. -->
+  <ul>
+    <li 
+      *ngFor="let name of arrayOfNames; let i = index"
+    >
+      <!-- (click)="displayNameIndex(i)" is how we handle events, in this case we say that we want the displayNameIndex method to handle the click event
+      and we want the index as an argument. We use index to bind a dynamic data-warning attribute so it is easier
+      to locate that button during unit testing -->
+      <button (click)="displayNameIndex(i)" [attr.data-list-button]="i">{{name}}</button>
+    </li>
+  </ul>
+
+  <!-- *ngIf is how we can conditionally show elements in our UI.
+  We use template ref (#defaultText) to speficy what should be displayed in the else case.
+  Read more from here: https://ultimatecourses.com/blog/angular-ngif-else-then or   To read more about *ngIf and *ngFor: https://angular.io/guide/attribute-directives
+  NB! We use data-attributes here to simplify locating the element during testing
+  -->
+  <div [attr.data-warning]="'warning'" *ngIf="displayWarning(); else defaultText">
+    You have been warned!
+  </div>
+  <ng-template #defaultText>
+    <span [attr.data-no-warning]="'no-warning'">
+      Nothing to see here!
+    </span>
+  </ng-template>
+</section>
